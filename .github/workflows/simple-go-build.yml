@@ -1,9 +1,13 @@
-name: Simple Go Build
+name: simple_go_build
 
 on:
   push:
     branches:
-      - main
+      - hellogo
+  # pull_request:
+  #   branches:
+  #     - hellogo
+
 jobs:
   build:
     runs-on: ubuntu-latest

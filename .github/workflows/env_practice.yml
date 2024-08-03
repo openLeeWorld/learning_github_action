@@ -1,0 +1,28 @@
+name: env_practice
+
+on:
+  push:
+    branches:
+      - main
+
+# workflow level
+env:
+  PIPE: cicd
+
+#job level
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      STAGE: dev
+
+    # step level
+    steps:
+      - name: create item with token
+        uses: actions/checkout@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+
+# 사용자 지정 환경 변수는 env컨텍스트의 env.<env_name>로 참조함
+# 변수 우선순위: steps > jobs > workflow
