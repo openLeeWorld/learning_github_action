@@ -8,7 +8,7 @@ on:
 defaults:
   run:
     shell: bash
-    working-directory: workdir
+    working-directory: workdir # workflow 기본 디렉토리
 # 잡 설정과 워크플로우 설정에서 모두 기본값을 정의하면, 잡 설정의 기본값이 우선됩니다.
 jobs:
   test:
@@ -16,8 +16,10 @@ jobs:
     defaults:
       run:
         shell: sh
-        working-directory: test
+        #working-directory: {{ github.workspace }} # 체크아웃한 저장소의 루트 디렉토리
     steps:
       - uses: actions/checkout@v3
+      - run: mkdir -p test
       - run: echo "in test"
+        working-directory: test
         
