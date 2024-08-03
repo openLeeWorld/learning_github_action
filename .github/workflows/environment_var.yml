@@ -8,7 +8,8 @@ on:
 jobs:
   verify:
     name: ${{ vars.JOB_NAME }}
-    if: ${{ vars.EXEC_WF == 'true'}}
+    if: ${{ vars.EXEC_WF == 'true'}} 
+    # if 구문이 true가 되야 jobs가 실행됨
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
