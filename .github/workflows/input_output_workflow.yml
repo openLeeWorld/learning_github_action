@@ -61,6 +61,9 @@ jobs:
       - name: Conventional Changelog Action
         id: changelog
         uses: TriPSs/conventional-changelog-action@v3.14.0
+        with:
+          github-token: ${{ secrets.github_token }}
+          output-file: "false"
         # description: 'The generated changelog for the new version'
         
 
