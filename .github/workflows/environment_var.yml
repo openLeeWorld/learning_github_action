@@ -3,7 +3,7 @@ name: environment_var
 on:
   push:
     branches:
-      - main
+      - env_var
 
 jobs:
   verify:
