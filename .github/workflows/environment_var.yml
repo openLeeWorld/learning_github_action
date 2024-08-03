@@ -1,0 +1,20 @@
+name: environment_var
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  verify:
+    name: ${{ vars.JOB_NAME }}
+    if: ${{ vars.EXEC_WF == 'true'}}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          if [[ -f ${{ vars.FILE_TO_CHECK }}]]; then  
+            echo "${{ vars.FILE_TO_CHECK }} files needs to be added to ${{ github.repository }} !" 
+            exit 1  
+          fi   
+

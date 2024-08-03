@@ -3,7 +3,7 @@ name: shell_practice
 on:
   push:
     branches:
-      - main
+      - shell_practice
 
 defaults:
   run:
@@ -19,7 +19,7 @@ jobs:
         #working-directory: {{ github.workspace }} # 체크아웃한 저장소의 루트 디렉토리
     steps:
       - uses: actions/checkout@v3
-      - run: mkdir -p test
+      - run: mkdir -p test # 디렉토리가 존재하지 않으면 생성 후 실행
       - run: echo "in test"
         working-directory: test
         
