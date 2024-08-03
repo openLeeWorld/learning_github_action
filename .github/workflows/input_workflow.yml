@@ -21,6 +21,7 @@ on:
 
 jobs:
   create_issue_on_failure:
+    if: ${{ inputs.title }} == "issue_second"  # 임시용
     runs-on: ubuntu-latest
     permissions:
       issues: write # issue를 쓰기위한 권한을 부여
@@ -34,9 +35,18 @@ jobs:
           -H "X-GitHub-Api-Version: 2022-11-28" \
           https://api.github.com/repos/${{ github.repository }}/issues \
           -d '{"title":"Failure: ${{ inputs.title }}","body":"Details: ${{ inputs.body }}"}'
+  
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set debug
+        id: set-debug-stage
+        run: echo "BUILD_STAGE=debug" >> $GITHUB_OUTPUT
 
+      - name: Get stage
+        run: echo "The build stage is ${{ steps.set-debug-stage.outputs.BUILD_STAGE }}"
 
-          
 
 # 깃허브 이슈를 자동으로 생성
 # inputs: 필요한 입력값들을 정의
+# 이 workflow는 수동으로 시작하거나 다른 workflow가 issue를 생성 할 수 있다.
