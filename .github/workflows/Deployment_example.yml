@@ -16,20 +16,18 @@ jobs:
         with: 
           java-version: '11'
           distribution: 'temurin' # JDK 종류: OpenJDK 등
-    
-      - name: Install Gradle
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gradle
-  
-      - name: Verify Gradle installation
-        run: gradle --version
-  
-      - name: Build with Gradle
-        run: gradle build
-  
-      #- name: Test with Gradle
-        #run: gradle test
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      # gradle wrapper 실행을 위해 gradle wrapper로 설치
+      
+      - uses: gradle/gradle-build-action@v2
+        with: 
+          arguments: build
+
+      - uses: gradle/gradle-build-action@v2 
+        with:
+          arguments: test
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
