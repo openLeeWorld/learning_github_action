@@ -1,9 +1,9 @@
 name: Deployments example
 on:
   push:
-    branches: [ "main", "dev" ]
-    #branches: 
-    #  - deplolyment_example
+    #branches: [ "prod", "dev" ]
+    branches: 
+      - deployment_example
     
 jobs:
   build-and-test:
@@ -20,7 +20,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       # gradle wrapper 실행을 위해 gradle wrapper로 설치
-      
+
       - uses: gradle/gradle-build-action@v2
         with: 
           arguments: build
@@ -39,7 +39,7 @@ jobs:
   deploy-dev:
     
     needs: [build-and-test]
-    if: github.ref == 'refs/heads/dev' 
+    if: github.ref == 'refs/heads/prod' 
     # 현재 브랜치가 dev일시
     runs-on: ubuntu-latest
     environment:
@@ -65,7 +65,7 @@ jobs:
 
     needs: [build-and-test]
     if: github.ref == 'refs/heads/main'
-
+    
     runs-on: ubuntu-latest
     environment: 
       name: production

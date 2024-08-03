@@ -1,0 +1,4 @@
+gradle은 Deplolyment_example에서 빌드하기 위한 용도
+ㄴ gradle 최신버전으로 다운로드(자바 설치 상태)
+ㄴ build.gradle에 플러그인 자바 추가
+ㄴ gradle init, gradle wrapper, gradle tasks로 빌드, 테스트 가능 확인
