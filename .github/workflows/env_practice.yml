@@ -3,7 +3,7 @@ name: env_practice
 on:
   push:
     branches:
-      - main
+      - env
 
 # workflow level
 env:

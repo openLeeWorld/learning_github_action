@@ -1,0 +1,23 @@
+name: shell_practice
+
+on:
+  push:
+    branches:
+      - main
+
+defaults:
+  run:
+    shell: bash
+    working-directory: workdir
+# 잡 설정과 워크플로우 설정에서 모두 기본값을 정의하면, 잡 설정의 기본값이 우선됩니다.
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: sh
+        working-directory: test
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "in test"
+        
