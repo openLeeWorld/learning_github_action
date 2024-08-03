@@ -14,14 +14,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
+          echo "This is a test file" > "${{ vars.FILE_TO_CHECK }}"
+            
           if [[ -f "${{ vars.FILE_TO_CHECK }}" ]]; then
-            echo "${{ vars.FILE_TO_CHECK }} file needs to be added to ${{ github.repository }} !"
+            echo "${{ vars.FILE_TO_CHECK }} has been successfully created in ${{ github.repository }}."
+          else
+            echo "Failed to create ${{ vars.FILE_TO_CHECK }} in ${{ github.repository }}!"
             exit 1
-          fi   
+          fi  
 
-# vars.<var_name>은 리포지토리 변수이고, env.<env_name>은 환경 변수이다.
-# secrets.<secret_name>은 리포지토리 및 환경 비밀 둘다 참조하지만
-# 환경 비밀은 environment키를 활요앟여 특정 환경을 지정한다.
-# ex) environment를 production으로 생성하고 api 키를 추가한다.
+# 1. vars.<var_name>은 리포지토리 변수이고, env.<env_name>은 환경 변수이다.
+# 환경 변수는 깃허브에 저장하거나 env: 로 yml에서 지정도 가능하다.
+# 2. secrets.<secret_name>은 리포지토리 및 환경 비밀 둘다 참조하지만
+#   환경 비밀은 environment키를 활용하여 특정 환경을 지정한다.
+# ex) environment를 production으로 생성하고 api 키를 추가한다. 
 #     environment: production으로 지정한다.
 # 환경은 production, staging, dev 등으로 나눠 서로 다른 비밀값을 보관가능하다.
