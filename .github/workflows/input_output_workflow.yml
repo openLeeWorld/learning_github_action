@@ -20,22 +20,21 @@ on:
         required: true
 
 jobs:
-  create_issue_on_failure:
-    if: ${{ inputs.title }} == "issue_second" 
-    runs-on: ubuntu-latest
-    permissions:
-      issues: write # issue를 쓰기위한 권한을 부여
-    steps:
-      - name: Create issue using REST API
-        if: ${{ inputs.title }} == "issue_second"  
-        run: | # multi-line string
-          curl -L \
-          -X POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          https://api.github.com/repos/${{ github.repository }}/issues \
-          -d '{"title":"Failure: ${{ inputs.title }}","body":"Details: ${{ inputs.body }}"}'
+  # create_issue_on_failure: 
+  #   if : false
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     issues: write # issue를 쓰기위한 권한을 부여
+  #   steps:
+  #     - name: Create issue using REST API  
+  #       run: | # multi-line string
+  #         curl -L \
+  #         -X POST \
+  #         -H "Accept: application/vnd.github+json" \
+  #         -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+  #         -H "X-GitHub-Api-Version: 2022-11-28" \
+  #         https://api.github.com/repos/${{ github.repository }}/issues \
+  #         -d '{"title":"Failure: ${{ inputs.title }}","body":"Details: ${{ inputs.body }}"}'
   
   setup:
     runs-on: ubuntu-latest
@@ -48,12 +47,24 @@ jobs:
   
   report:
     runs-on: ubuntu-latest
-    needs: setup
+    needs: setup #  sequencing: 잡에 순서조건을 붙임
     steps:
       - name: Get stage
         run: echo "The build stage is ${{ needs.setup.outputs.build-stage }}"
 
+  build:
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      artifact-tag: ${{ steps.changelog.outputs.version }}
+    steps:
+      - name: Conventional Changelog Action
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v3.14.0
+        # description: 'The generated changelog for the new version'
+        
 
 # 깃허브 이슈를 자동으로 생성
 # inputs: 필요한 입력값들을 정의
 # 이 workflow는 수동으로 시작하거나 다른 workflow가 issue를 생성 할 수 있다.
+# 어떤 스텝이 액션을 사용하고 해당 액션에 action.yml에 outputs를 캡쳐가능
