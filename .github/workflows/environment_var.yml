@@ -19,3 +19,9 @@ jobs:
             exit 1  
           fi   
 
+# vars.<var_name>은 리포지토리 변수이고, env.<env_name>은 환경 변수이다.
+# secrets.<secret_name>은 리포지토리 및 환경 비밀 둘다 참조하지만
+# 환경 비밀은 environment키를 활요앟여 특정 환경을 지정한다.
+# ex) environment를 production으로 생성하고 api 키를 추가한다.
+#     environment: production으로 지정한다.
+# 환경은 production, staging, dev 등으로 나눠 서로 다른 비밀값을 보관가능하다.
