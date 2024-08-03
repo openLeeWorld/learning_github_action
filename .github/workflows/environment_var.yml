@@ -14,9 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          if [[ -f ${{ vars.FILE_TO_CHECK }}]]; then  
-            echo "${{ vars.FILE_TO_CHECK }} files needs to be added to ${{ github.repository }} !" 
-            exit 1  
+          if [[ -f "${{ vars.FILE_TO_CHECK }}" ]]; then
+            echo "${{ vars.FILE_TO_CHECK }} file needs to be added to ${{ github.repository }} !"
+            exit 1
           fi   
 
 # vars.<var_name>은 리포지토리 변수이고, env.<env_name>은 환경 변수이다.
