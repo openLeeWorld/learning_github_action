@@ -17,7 +17,9 @@ jobs:
         uses: actions/setup-java@v4.2.1 # 자바 17 설치
         with:
           distribution: 'corretto' 
-          java-version: '17'
+          java-version: '21'
+      - name: Verify Java version
+        run: java -version
       - name: Grant execuet permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
