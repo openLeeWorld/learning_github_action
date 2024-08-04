@@ -2,12 +2,12 @@ name: script_injection_example
 on:
   push:
     branches: 
-      #- script_injection
-      - main
+      - script_injection
 
 jobs:
   process:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ github.event.head_commit.message }}
-# 커밋 메시지: `echo my content > demo.txt; ls -al; printenv;`
+# 커밋 메시지: echo my content > demo.txt; ls -al; printenv;
+# 커밋 메시지를 출력하라는 말에 의해서 runner의 환경변수가 다 출력된다.
