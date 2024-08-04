@@ -35,9 +35,11 @@ jobs:
         uses: actions/download-artifact@v4.1.8
         with:
           name: greetings.jar # path 없으면 기본 홈 디렉토리에 다운
+      - name: Display structure of downloaded files
+        run: ls -R
       - shell: bash
         run: |
-          java -jar greetings.jar  
+          java -jar greetings-actions.jar  
 
     
 
