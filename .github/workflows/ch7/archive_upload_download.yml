@@ -1,9 +1,10 @@
 name: archive_upload_download
+
 on:
   push:
     branches:
       - main
-      
+
   pull_request: 
     branches: 
       - main
@@ -25,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v4.3.5
         with: # 액션 인수 전달
           name: greetings.jar # 아티팩트 식별자
-          path: build/lib # gradle이 빌드하면 jar이 나오는 곳(시스템이 파일 접근 경로)
+          path: build/libs # gradle이 빌드하면 jar이 나오는 곳(시스템이 파일 접근 경로)
   test-run: # 깃허브 액션에서 잡은 기본적으로 병렬로 실행(순서는 needs로 명세)
     runs-on: ubuntu-latest
     needs: build # 각 잡은 별도의 VM에서 실행되므로 환경이 분리됨
