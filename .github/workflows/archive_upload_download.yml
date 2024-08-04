@@ -16,7 +16,7 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v4.2.1 # 자바 17 설치
         with:
-          distribution: 'temurin' 
+          distribution: 'corretto' 
           java-version: '17'
       - name: Grant execuet permission for gradlew
         run: chmod +x gradlew
