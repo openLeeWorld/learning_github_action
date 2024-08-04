@@ -35,7 +35,8 @@ jobs:
           https://api.github.com/repos/${{ github.repository }}/issues \
           -d '{"title":"Failure: ${{ inputs.title }}","body":"Details: ${{ inputs.body }}"}'
   # curl -L: 리다이렉션 Location을 따라감, -d: data, -X: method, -H: 헤더
-
+  # secrets.GITHUB_TOKEN은 각 작업에 대해 고유한, Github에서 워크플로우를 위해 
+  # 생성하는 토큰이며, 작업이 완료되면 만료됨 (커밋 푸시, 이슈 생성 등)
   setup:
     runs-on: ubuntu-latest
     outputs: # step값을 참조해서 다른 잡에게 출력을 build-stage로 넘긴다.

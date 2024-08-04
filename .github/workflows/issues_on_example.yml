@@ -18,5 +18,8 @@ jobs:
 
 #   call-workflow:
 #     uses: ./.github/workflows/input_output_workflow.yml
+#     with:
+#       title: issue_workflow_call
+#       body: issued by issue_on_example.yml
 # 위는 workflow-call를 부르기 위해 uses를 사용하는 모습이다.
   

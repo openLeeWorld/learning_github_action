@@ -1,0 +1,12 @@
+name: script_injection_example
+on:
+  push:
+    branches: 
+      - main
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.event.head_commit.message }}
+# 커밋 메시지: `echo my content > demo.txt; ls -al; printenv;`

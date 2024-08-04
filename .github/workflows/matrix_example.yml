@@ -2,7 +2,7 @@ name: matrix_example
 on: 
   push:
     branches:
-      - main
+      - matrix_example
 
 # 각 step에서 우분투랑 윈도우에서 노드 버전을 실행한다.
 jobs:
