@@ -3,13 +3,14 @@ name: archive_upload_download
 on:
   push:
     branches:
-      - main
+      - active_upload_download
 
   pull_request: 
     branches: 
-      - main
+      - active_upload_download
+      
 jobs:
-  build: # 자바가 다른 VM에서 시행되므로 
+  build: # 잡이 다른 VM에서 시행되므로 각각 자바 환경을 설치해야함
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4 # 리포지토리 소스코드 복사에 러너에 옮김

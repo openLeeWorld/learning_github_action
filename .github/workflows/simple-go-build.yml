@@ -3,7 +3,7 @@ name: simple_go_build
 on:
   push:
     branches:
-      - hellogo
+      - main
   # pull_request:
   #   branches:
   #     - hellogo
@@ -12,9 +12,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3 # github.com/actions/checkout에 설정된 액션 활용
+      - uses: actions/checkout@v4 # github.com/actions/checkout에 설정된 액션 활용
       - name: setup Go version
         uses: actions/setup-go@v2
         with:
           go-version: '1.14.0'
+      - name: Verify Go version
+        run: go version # go 버전 확인
       - run: go run helloworld.go
+
+      # 아래는 캐시 액션을 호출한다.
+      - uses: actions/cache@v3
+        env:
+          cache-name: go-cache
+        with:
+          path: \
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/go.sum')}}
+          restore-keys: \
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-    
+       # key로 cache-miss가 난 경우 restore-keys의 위에서부터 부분적으로 일치하는 키 값을 찾는다.     
+       # key값은 고유하며 linux-<workflow: build>-<환경변수: go-cache>-<지정된 경로 hash값> 구성
+       # runner.os는 운영체제만 포함하고 matrix.os는 os와 버전 정보를 포함함
