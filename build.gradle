@@ -7,17 +7,29 @@
 // 아래는 대표적인 build.gradle 예시
 plugins {
     id 'java'
-}
+} // 자바 플러그인 적용
 
-//group 'com.example'
-version '1.0.0'
+group 'com.example' // 패키지 그룹
+version '1.0.0' // semVer
 
 repositories {
     mavenCentral()
-}
+} // 중앙 저장소에서 의존성 다운
 
 dependencies {
-    //testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
+} // 의존성
+
+jar {
+    manifest {
+        attributes (
+            'Main-Class': 'com.example.App'
+        ) // 메인 클래스 지정
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    } // 런타임 클래스패스에 있는 모든 파일을 JAR파일에 포함
 }
 
 
