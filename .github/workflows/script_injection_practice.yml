@@ -2,6 +2,7 @@ name: script_injection_example
 on:
   push:
     branches: 
+      #- script_injection
       - main
 
 jobs:
