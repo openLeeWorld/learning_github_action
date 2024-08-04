@@ -1,0 +1,40 @@
+name: archive_upload_download
+on:
+  push:
+    branches: [ main ]
+  pull_request: 
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # 리포지토리 소스코드 복사에 러너에 옮김
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.2.1 # 자바 17 설치
+        with:
+          distribution: 'temurin' 
+          java-version: '17'
+      - name: Grant execuet permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew build 
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.3.5
+        with: # 액션 인수 전달
+          name: greetings.jar # 아티팩트 식별자
+          path: build/lib # gradle이 빌드하면 jar이 나오는 곳(시스템이 파일 접근 경로)
+  test-run: # 깃허브 액션에서 잡은 기본적으로 병렬로 실행(순서는 needs로 명세)
+    runs-on: ubuntu-latest
+    needs: build # 각 잡은 별도의 VM에서 실행되므로 환경이 분리됨
+    steps:
+      - name: Download candidate artifacts
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: greetings.jar # path 없으면 기본 홈 디렉토리에 다운
+      - shell: bash
+        run: |
+          java -jar greetings.jar  
+
+    
+
+  

@@ -71,7 +71,7 @@ jobs:
 
       - name: Get artifact-tag
         run: echo "The artifact tag is ${{ needs.changedlog.outputs.artifact-tag }}"
-
+        # 원본에 항목이 없어서 빈칸으로 뜸
         
 
 # 깃허브 이슈를 자동으로 생성

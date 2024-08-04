@@ -19,7 +19,7 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      # gradle wrapper 실행을 위해 gradle wrapper로 설치
+      # gradle wrapper 실행 및 빌드를 위한 gradlew 실행 권한 주기
 
       - uses: gradle/gradle-build-action@v2
         with: 
