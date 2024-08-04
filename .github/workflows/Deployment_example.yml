@@ -24,7 +24,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with: 
           arguments: build
-
+      
       - uses: gradle/gradle-build-action@v2 
         with:
           arguments: test
@@ -86,7 +86,10 @@ jobs:
           name: production
           files: greeting-deploy.jar
 
-
+# gradle-build-action을 다음 기능을 제공함
+# 그레이들 배포판의 자동 다운로드 및 캐싱
+# 실행 사이에 Gradle 사용자 홈 콘텐츠의 보다 효율적인 캐싱
+# 캐시 사용량 및 캐시 구성 옵션에 대한 상세 보고
 
 
         

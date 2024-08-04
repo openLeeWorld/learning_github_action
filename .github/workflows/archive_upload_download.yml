@@ -19,8 +19,18 @@ jobs:
         with:
           distribution: 'corretto' 
           java-version: '17'
+          cache: 'gradle' # 캐시키: setup-java-${{platform}}-${{packageManager}}-${{fileHash}}
       - name: Grant execuet permission for gradlew
         run: chmod +x gradlew
+      # - name: Cache Gradle dependencies # 빌드하기 전 의존성 캐시
+      #   uses: actions/cache@v3
+      #   with: 
+      #     path: |
+      #       ~/.gradle/caches
+      #       ~/.gradle/wrapper
+      #     key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-gradle-
       - name: Build with Gradle
         run: ./gradlew build 
       - name: Upload a Build Artifact
@@ -37,6 +47,7 @@ jobs:
         with:
           distribution: 'corretto' 
           java-version: '17'
+          cache: 'gradle'
       - name: Verify Java version
         run: java --version
       - name: Download candidate artifacts
@@ -49,6 +60,11 @@ jobs:
         run: |
           java -jar Deployment_Example-1.0.0.jar 
 # JAR파일 이름은 <settings.gradle의 rootProject.name>-<build.gradle의 version>.jar로 정해짐  
+
+# 캐시 해시에 사용되는 파일)
+# Gradle: **/*.gradle*, **/gradle-wrapper.properties
+# Maven: **/pom.xml
+# Sbt: **/*.sbt, **/project/build.properties, **/project/**.{scala,sbt}
 
     
 

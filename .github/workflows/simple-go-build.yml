@@ -3,7 +3,7 @@ name: simple_go_build
 on:
   push:
     branches:
-      - main
+      - hello_go
   # pull_request:
   #   branches:
   #     - hellogo
@@ -21,11 +21,11 @@ jobs:
         run: go version # go 버전 확인
       - run: go run helloworld.go
 
-      # 아래는 캐시 액션을 호출한다.
-      - uses: actions/cache@v3
+      # 아래는 캐시 액션을 호출한다. 일일히 의존성 다운로드를 생략해줌
+      - uses: actions/cache@v3 # 깃허브의 내부 캐시 저장소에 캐시 저장
         env:
           cache-name: go-cache
-        with:
+        with: # path에 저장된 내용을 key에 따라 캐시로 저장, key에 존재하면 캐시 내용 복원
           path: \
             ~/.cache/go-build
             ~/go/pkg/mod
@@ -34,6 +34,11 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-    
-       # key로 cache-miss가 난 경우 restore-keys의 위에서부터 부분적으로 일치하는 키 값을 찾는다.     
-       # key값은 고유하며 linux-<workflow: build>-<환경변수: go-cache>-<지정된 경로 hash값> 구성
-       # runner.os는 운영체제만 포함하고 matrix.os는 os와 버전 정보를 포함함
+
+# key로 cache-miss가 난 경우 restore-keys의 위에서부터 부분적으로 일치하는 키 값을 찾는다.     
+# key값은 고유하며 linux-<workflow: build>-<환경변수: go-cache>-<지정된 경로 hash값> 구성
+# 실제로는 로컬 go 프로젝트에서 go mod init <모듈명>, go mod tidy를 호출해서 모듈 생성후 캐시
+# ex) 각 커밋, 풀 리퀘스트에 대한 고유한 캐시 key: ${{ runner.os }}-docker-${{ github.sha }}
+# 일치하는 키가 없으면 부모, 업스트림 브랜치에서 캐시를 찾음 (ex) dev->main
+# 7일 이상 접근하지 않은 캐시는 깃허브에서 자동으로 제거 (10GB 제한)
+# runner.os는 운영체제만 포함하고 matrix.os는 os와 버전 정보를 포함함

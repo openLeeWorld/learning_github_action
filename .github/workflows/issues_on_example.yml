@@ -1,0 +1,22 @@
+name: issues_on_example
+
+on:
+  issues: # 이슈 생성, 업데이트, 삭제 등 이슈 관련 모든 활동이 트리거
+    types:
+      - opened # 이슈가 새로 열리면 시작
+    # types: [opened, edited, closed]
+  push:
+    branches:
+      - workflow_call_example
+
+jobs:
+  notify-for-issue:
+    runs-on: ubuntu-latest
+    steps:
+      #- run: echo "Something happend with an issue"
+      - run: echo "An issue was opened"
+
+#   call-workflow:
+#     uses: ./.github/workflows/input_output_workflow.yml
+# 위는 workflow-call를 부르기 위해 uses를 사용하는 모습이다.
+  
