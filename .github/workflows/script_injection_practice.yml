@@ -2,12 +2,18 @@ name: script_injection_example
 on:
   push:
     branches: 
-      - script_injection
+      #- script_injection
+      - main
 
 jobs:
   process:
     runs-on: ubuntu-latest
     steps:
+      - run: echo "commit message has malicious code"
       - run: echo ${{ github.event.head_commit.message }}
+      - run: echo "secret variable has malicious code"
+      - run: echo ${{ secrets.SCRIPT_INJECTION }}
 # 커밋 메시지: echo my content > demo.txt; ls -al; printenv;
 # 커밋 메시지를 출력하라는 말에 의해서 runner의 환경변수가 다 출력된다.
+# 예를 들면 GITHUB_WORKFLOW_SHA
+# 비밀변수에는 script를 넣으면 실행 가능
