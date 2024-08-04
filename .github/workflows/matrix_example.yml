@@ -1,0 +1,21 @@
+name: matrix_example
+on: 
+  push:
+    branches:
+      - main
+
+# 각 step에서 우분투랑 윈도우에서 노드 버전을 실행한다.
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [14, 16]
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+        continue-on-error: true # step에서 특정 조합 하나가 실패해도 계속 실행
+      - name: Output node version
+        run: node --version
