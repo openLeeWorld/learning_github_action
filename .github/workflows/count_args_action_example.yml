@@ -17,3 +17,14 @@ jobs:
     - shell: bash
       run: |
         echo argument count is ${{ steps.report-count.outputs.arg-count }}
+
+  count-args-docker:
+    runs-on: ubuntu-latest
+    steps:
+    - id: report-count-docker
+      uses: openLeeWorld/Dockerfile_CustomAction_practice@main # 액션 리포지토리 참조 (github.com 기준)
+      with: 
+        arguments-to-count: ${{ github.event.inputs.myValues }} 
+    - shell: bash
+      run: |
+        echo argument count is ${{ steps.report-count-docker.outputs.arg-count }}
