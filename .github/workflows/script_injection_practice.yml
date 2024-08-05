@@ -13,7 +13,18 @@ jobs:
       - run: echo ${{ github.event.head_commit.message }}
       - run: echo "secret variable has malicious code"
       - run: echo ${{ secrets.SCRIPT_INJECTION }}
+      - run: echo "now we have safe form from commit message"
+      - env: 
+          DATA_VALUE: ${{ github.event.head_commit.message }}
+        run: echo $DATA_VALUE
+      - run: echo "now we have safe form from secret variable"
+      - env: 
+          DATA_VALUE: ${{ secrets.SCRIPT_INJECTION }}
+        run: echo $DATA_VALUE
+
+
 # 커밋 메시지: echo my content > demo.txt; ls -al; printenv;
 # 커밋 메시지를 출력하라는 말에 의해서 runner의 환경변수가 다 출력된다.
 # 예를 들면 GITHUB_WORKFLOW_SHA
 # 비밀변수에는 script를 넣으면 실행 가능
+# 예를 들면 여러줄로 쉘 스크립트를 넣으면 둘째줄부터 실행됨
