@@ -1,0 +1,2 @@
+.github/workflows/*.yml만이 깃허브 액션으로 인식됨
+.github/actions/에 로컬 액션을 만들 수 있음(다른 리포지토리 참조x)
