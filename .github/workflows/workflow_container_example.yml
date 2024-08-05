@@ -50,10 +50,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify interation tests db exists
         run: mysql --host 127.0.0.1 --port 3306
-          -u ${{ vars.MYSQL_ADMIN_USER }} 
-          -p ${{ secrets.MYSQL_ADMIN_PASS }}
+          -u root
+          -p${{ secrets.MYSQL_ADMIN_PASS }}
           -e "SHOW DATABASES LIKE 'inttests'" 
-      
+# 공백이 있으면 mysql은 대화 방식으로 받을 준비를 함      
 
 
 # 컨테이너 내에서 run step을 위한 기본 셸은 bash가 아니라 sh이다. default속성으로 변경 가능 
