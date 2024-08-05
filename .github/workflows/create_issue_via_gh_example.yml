@@ -1,0 +1,58 @@
+name: create_issue_via_gh
+on:
+  # Allows you to run this workflow from another workflow
+  workflow_call:
+    inputs:
+      title:
+        description: 'Issue title'
+        required: true
+        type: string
+      body:
+        description: 'Issue body'
+        required: true
+        type: string
+    outputs:
+      issue-number:
+        description: "The issue number"
+        value: ${{ jobs.create-issue.outputs.inum }}
+  # Allow you to call this manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      title:
+        description: 'Issue title'
+        required: true
+      body:
+        description: 'Issue body'
+        required: true
+        
+  
+jobs:
+  create-issue: 
+    runs-on: ubuntu-latest
+    outputs:
+      inum: ${{ steps.new_issue.outputs.inum }}
+    permissions:
+      issues: write # issue를 쓰기위한 권한을 부여
+    steps:
+      - name: Create issue using CLI  
+        id: new_issue
+        run: | # multi-line string
+          response=`gh issue create \
+          --title "${{ inputs.title }}" \
+          --body "${{ inputs.body }}" \
+          --repo "${{ github.event.repository.url }}" \  
+          echo "inum=$response | rev | cut -d'/' -f 1" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# gh CLI 명령어를 호출, 명령의 출력을 가져와서 구문을 분석 후 이슈 id만 생성
+
+      - name: labeling on issue by github script action
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['Triage']
+            })

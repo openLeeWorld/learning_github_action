@@ -22,3 +22,11 @@ runs:
         chmod +x ${{ github.action_path }}/test-script.sh
         ${{ github.action_path }}/test-script.sh ${{ inputs.artifact-version }} "$ARGS"
       shell: bash
+
+# 로컬 액션 사용법:
+# - uses: actions/checkout@v4
+# - name: run-test
+#   uses: ./.github/actions/test-action # yml이 아니라 폴더를 지정
+#   with:
+#     artifact-version: ${{ needs.build.outputs.artifact-tag || github.event.inputs.myVersion }}
+#     arguments-to-print: ${{ github.event.inputs.myValues }}
