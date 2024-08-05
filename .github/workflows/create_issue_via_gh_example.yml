@@ -15,6 +15,9 @@ on:
       issue-number:
         description: "The issue number"
         value: ${{ jobs.create-issue.outputs.inum }}
+      #issue-number-REST:
+        #description: "The issue number of REST"
+        #value: ${{ jobs.create-issue.outputs.inum_REST }}
   # Allow you to call this manually from the Actions tab
   workflow_dispatch:
     inputs:
@@ -31,6 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       inum: ${{ steps.new_issue.outputs.inum }}
+      # inum_REST: ${{ steps.new_issue_REST.outputs.inum }}
     permissions:
       issues: write # issue를 쓰기위한 권한을 부여
     steps:
@@ -58,7 +62,7 @@ jobs:
             labels: ['Triage']
             })
 
-      - name: Create issue using CLI
+      - name: Create issue using REST API
         id: new_issue_REST
         run: |
           response=$(curl --request POST \

@@ -1,0 +1,55 @@
+name: workflow_container_example
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  info:
+    runs-on: ubuntu-latest # 우분투에서 도커를 실행
+    container: golang:1.20.0-alpine # 러너의 컨테이너 환경에서 실행한다. (Go 이미지)
+    steps:
+      - uses: actions/checkout@v4
+      - name: get info
+        run: "go version"
+
+  nodes-prod:
+    runs-on: ubuntu-latest
+    container: 
+      image: node:20-alpine:3.16 # 컨테이너 이미지 node.js
+      env: # 환경 변수 매핑
+        NODE_ENV: production
+      ports: # 컨테이너에 노출할 포트의 배열
+        - 80  # local:container
+      volumes: # 컨테이너가 사용할 볼륨의 배열로 명명, 익명 볼륨 또는 호스트의 바인드 마운트
+        - source_data:/workdir # src:destinationPath
+      options: --cpus 2 # 추가 표준 Docker 컨테이너 옵션 (--network, --entrypoint 제외)
+      # credentials: # 이미지 자격 증명 레지스트리에 인증이 필요한 경우
+      #   username: user # secrets.비밀변수로 넣어줌
+      #   password: password/token # secrets.비밀변수로 넣어줌
+ 
+  integration-tests:
+    runs-on: ubuntu-latest
+    services: # 잡 서비스로서 MySQL 컨테이너를 정의 (잡의 스텝들이 서비스에 액세스)
+      mysql:
+        image: mysql:8.0
+        env: 
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ADMIN_PASS }}
+          MYSQL_DATABASE: inttests
+        ports:
+          - 3306:3306 # 호스트: 컨테이너 포트 매핑
+        options: --health-cmd="mysqladmin ping"
+                 --health-interval=10s
+                 --health-timeout=5s
+                 --health-retries=3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify interation tests db exists
+        run: mysql --host 127.0.0.1 --port 3306
+          -u ${{ vars.MYSQL_ADMIN_USER }}
+          -p ${{ secrets.MYSQL_ADMIN_PASS }}
+          -e "SHOW DATABASES LIKE 'inttests'" 
+      
+
+
+# 컨테이너 내에서 run step을 위한 기본 셸은 bash가 아니라 sh이다. default속성으로 변경 가능 
