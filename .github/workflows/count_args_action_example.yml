@@ -13,8 +13,7 @@ jobs:
     - id: report-count
       uses: openLeeWorld/arg_count_action_example@main # 액션 리포지토리 참조 (github.com 기준)
       with: 
-        arguments-to-count: ${{ github.event.inputs.myValues }}
-    - run: echo 
+        arguments-to-count: ${{ github.event.inputs.myValues }} 
     - shell: bash
       run: |
         echo argument count is ${{ steps.report-count.outputs.arg-count }}
