@@ -34,14 +34,14 @@ jobs:
     permissions:
       issues: write # issue를 쓰기위한 권한을 부여
     steps:
-      - name: Create issue using CLI  
+      - name: Create issue using CLI
         id: new_issue
-        run: | # multi-line string
-          response=`gh issue create \
+        run: |
+          response=$(gh issue create \
           --title "${{ inputs.title }}" \
           --body "${{ inputs.body }}" \
-          --repo ${{ github.event.repository.url }}`  
-          echo "inum=$response | rev | cut -d'/' -f 1" >> $GITHUB_OUTPUT
+          --repo ${{ github.repository }} )
+          echo "inum=$(echo $response | rev | cut -d'/' -f 1)" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 # gh CLI 명령어를 호출, 명령의 출력을 가져와서 구문을 분석 후 이슈 id만 생성
