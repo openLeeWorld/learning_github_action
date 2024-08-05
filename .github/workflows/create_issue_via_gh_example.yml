@@ -57,3 +57,19 @@ jobs:
             repo: context.repo.repo,
             labels: ['Triage']
             })
+
+      - name: Create issue using CLI
+        id: new_issue_REST
+        run: |
+          response=$(curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/issues \
+          --header 'authorization: Bearer ${{ secrets.PAT }}' \
+          --header 'content-type: application/json' \
+          --data '{
+            "title": "{{ inputs.title }}",
+            "body": "${{ inputs.body }}"
+          }' \
+          --fail | jq '.number') 
+          echo "inum=$response" >> $GITHUB_OUTPUT
+
+# jq '.number'는 curl json 응답 중 number 항목을 빼서 response에 넣어줌
