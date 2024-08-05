@@ -32,15 +32,6 @@ jobs:
   count-args-js:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-      - name: Install dependencies
-        run: |
-          npm install @actions/core
-          npm install @actions/github
       - id: report-count-js
         uses: openLeeWorld/js_custom_action_practice@main # 액션 리포지토리 참조 (github.com 기준)
         with: 
